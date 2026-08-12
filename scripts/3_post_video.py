@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 """
-Step 3 of the demo flow: post a video to TikTok as a private (SELF_ONLY)
-draft via the Content Posting API, using push_by_file (direct upload).
+Step 3 of the demo flow: upload a video to TikTok as a draft in the
+creator's inbox, via the Content Posting API's inbox/draft flow
+(push_by_file — direct upload, no domain verification needed).
 
-Unaudited apps can only post as SELF_ONLY (visible only to the account
-owner, in their TikTok inbox for review) — that's a TikTok platform
-restriction, not a limitation of this script. Once the app is approved,
-change PRIVACY_LEVEL below.
+Two different "init" endpoints exist and need different scopes — this
+tripped us up once already, worth remembering:
+  - /v2/post/publish/video/init/        -> Direct Post, needs `video.publish`
+  - /v2/post/publish/inbox/video/init/  -> draft to inbox, needs `video.upload`
+This script uses the inbox one, matching the `video.upload` scope granted
+during OAuth. The inbox endpoint doesn't take post_info (title/privacy
+etc.) — the creator sets that themselves when they open the draft in the
+TikTok app and finish posting it.
 
 Usage:
-    python3 3_post_video.py /path/to/video.mp4 "Caption text here"
+    python3 3_post_video.py /path/to/video.mp4
 """
 import json
 import os
@@ -17,13 +22,11 @@ import sys
 import urllib.request
 
 TOKEN_PATH = os.path.join(os.path.dirname(__file__), "token.json")
-PRIVACY_LEVEL = "SELF_ONLY"  # unaudited apps must use this
 
-if len(sys.argv) != 3:
-    sys.exit("Usage: python3 3_post_video.py <video_path> '<caption>'")
+if len(sys.argv) != 2:
+    sys.exit("Usage: python3 3_post_video.py <video_path>")
 
 video_path = sys.argv[1]
-caption = sys.argv[2]
 
 with open(TOKEN_PATH) as f:
     token_data = json.load(f)
@@ -32,14 +35,6 @@ access_token = token_data["access_token"]
 video_size = os.path.getsize(video_path)
 
 init_body = json.dumps({
-    "post_info": {
-        "title": caption,
-        "privacy_level": PRIVACY_LEVEL,
-        "disable_duet": False,
-        "disable_comment": False,
-        "disable_stitch": False,
-        "video_cover_timestamp_ms": 1000,
-    },
     "source_info": {
         "source": "FILE_UPLOAD",
         "video_size": video_size,
@@ -49,7 +44,7 @@ init_body = json.dumps({
 }).encode()
 
 req = urllib.request.Request(
-    "https://open.tiktokapis.com/v2/post/publish/video/init/",
+    "https://open.tiktokapis.com/v2/post/publish/inbox/video/init/",
     data=init_body,
     headers={
         "Authorization": f"Bearer {access_token}",
