@@ -1,0 +1,66 @@
+<title>Solar Engineer — TikTok Content Tool</title>
+<style>
+  :root {
+    --bg: #FBF9F4; --surface: #F1EEE4; --surface-border: #E4DFD0;
+    --ink: #132038; --text: #1C1C1C; --muted: #5B6472;
+    --accent: #C9791E; --accent-ink: #8f5814; --accent2: #1B8F7A;
+    --rule: rgba(19,32,56,0.14); --link: #1B8F7A;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #070B14; --surface: #0F1626; --surface-border: #202B40;
+      --ink: #F5F7FA; --text: #E7EAF0; --muted: #96A0B4;
+      --accent: #FF9F3D; --accent-ink: #FFC857; --accent2: #2FE0C0;
+      --rule: rgba(245,247,250,0.14); --link: #3ECBFF;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #070B14; --surface: #0F1626; --surface-border: #202B40;
+    --ink: #F5F7FA; --text: #E7EAF0; --muted: #96A0B4;
+    --accent: #FF9F3D; --accent-ink: #FFC857; --accent2: #2FE0C0;
+    --rule: rgba(245,247,250,0.14); --link: #3ECBFF;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    font-size: 17px; line-height: 1.7;
+  }
+  main { max-width: 640px; margin: 0 auto; padding: 80px 24px 100px; }
+  .kicker {
+    font-family: ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
+    font-weight: 800; font-size: 13px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--accent); margin: 0 0 10px;
+  }
+  h1 {
+    font-family: ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
+    font-weight: 800; font-size: clamp(28px, 5vw, 40px); color: var(--ink);
+    margin: 0 0 20px; text-wrap: balance;
+  }
+  p { margin: 0 0 16px; }
+  .links {
+    margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--rule);
+    font-family: ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
+    font-size: 14.5px;
+  }
+  a { color: var(--link); margin-right: 20px; }
+</style>
+<main>
+  <p class="kicker">Solar Engineer</p>
+  <h1>Independent solar education. No sales pitch.</h1>
+  <p>
+    Solar Engineer publishes educational short-form video content about UK
+    residential solar — real payback math, red flags to check on a quote,
+    and how the underlying systems actually work. Content is written and
+    produced independently, with no installer commission or referral fee
+    behind it.
+  </p>
+  <p>
+    This site also documents the tooling used to publish that content to
+    TikTok via the Content Posting API.
+  </p>
+  <div class="links">
+    <a href="./terms-of-service.html">Terms of Service</a>
+    <a href="./privacy-policy.html">Privacy Policy</a>
+  </div>
+</main>
